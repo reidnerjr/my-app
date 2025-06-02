@@ -1,19 +1,34 @@
 import { useParams } from 'react-router-dom';
-import { Box, Button, HStack, Image, Text, VStack } from '@chakra-ui/react';
+import { Box, Button, HStack, Image, Text, VStack, Spinner } from '@chakra-ui/react';
 import { useCart } from '../../Context/CartContext';
-import { products } from '../../data/product';
+import { useEffect, useState } from 'react';
+import api from '../../services/api';
 
 export default function ProductDetail() {
   const { id } = useParams();
   const { addToCart } = useCart();
-  const product = products.find(p => p.id.toString() === id);
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    api.get(`/products/${id}`)
+      .then(response => {
+        setProduct(response.data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Erro ao buscar produto:', error);
+        setLoading(false);
+      });
+  }, [id]);
+
+  if (loading) return <Spinner size="xl" />;
   if (!product) return <Text>Produto não encontrado</Text>;
 
   return (
     <Box p={6}>
       <HStack align="flex-start">
-        <Image src={product.image} boxSize="250px" objectFit="cover" />
+        <Image src={product.picture} boxSize="250px" objectFit="cover" />
         <VStack align="start" spacing={3}>
           <Text fontSize="2xl" fontWeight="bold">{product.title}</Text>
           <Text>{product.description}</Text>
