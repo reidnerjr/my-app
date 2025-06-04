@@ -12,7 +12,7 @@ export function CartProvider({ children }) {
   useEffect(() => {
     async function loadProducts() {
       try {
-        const response = await api.get('/products'); // endpoint da sua API
+        const response = await api.get('/products'); 
         const productsData = response.data;
 
         setProducts(productsData);
