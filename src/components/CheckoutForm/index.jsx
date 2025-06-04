@@ -74,7 +74,7 @@ export default function CheckoutForm() {
           ) : (
             cart.map(item => (
               <HStack key={item.id} spacing={4} align="center" mb={2}>
-                <Box width='150px' height='150px'>
+                <Box boxSize="150px" width='150px'>
                   <img
                     src={item.picture}
                     alt={item.title}
