@@ -27,7 +27,6 @@ const schema = yup.object().shape({
   rua: yup.string().required('Rua é obrigatória'),
   bairro: yup.string().required('Bairro é obrigatório'),
   numero: yup.string().required('Número é obrigatório'),
-  servico: yup.string().required('Serviço restante é obrigatório'),
 });
 
 export default function CheckoutForm() {
