@@ -30,7 +30,7 @@ const schema = yup.object().shape({
 });
 
 export default function CheckoutForm() {
-  const { clearCart } = useCart();
+  const { clearCart, cart } = useCart();
   const navigate = useNavigate();
   const cancelRef = useRef();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -42,7 +42,6 @@ export default function CheckoutForm() {
   } = useForm({ resolver: yupResolver(schema) });
 
   const onSubmit = (data) => {
-    console.log('Pedido finalizado com os dados:', data);
     clearCart();
     onOpen(); // abre o modal
   };
@@ -51,27 +50,48 @@ export default function CheckoutForm() {
     onClose();         // fecha o modal
     navigate('/');     // redireciona para home
   };
-  const { cart } = useCart();
+
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
   return (
     <>
       <Box p={6} maxW="600px" mx="auto" marginBottom='50px'>
-        {cart.map(item => (
-          <HStack key={item.id} spacing={4} align="left" mb={2}>
-            <Box boxSize="100px" width='300px'>
-              <img src={item.picture} alt={item.title} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '4px' }} />
-            </Box>
-            <Text>
-              {item.title} — {item.quantity} x R$ {item.price.toFixed(2)}
-            </Text>
-            <Text mt={2} fontWeight="bold">Total: R$ {total.toFixed(2)}</Text>
+        {/* Título principal */}
+        <Text fontSize="3xl" fontWeight="bold" mb={6}>Finalizar Pedido</Text>
 
-          </HStack>
-        ))}
+        {/* Resumo do pedido dentro da caixa */}
+        <Text fontSize="2xl" fontWeight="semibold" mb={4}>Resumo do Pedido</Text>
+        <Box
+          border="1px solid"
+          borderColor="gray.200"
+          borderRadius="md"
+          p={4}
+          mb={6}
+          bg="gray.50"
+        >
+          {cart.length === 0 ? (
+            <Text>Carrinho vazio.</Text>
+          ) : (
+            cart.map(item => (
+              <HStack key={item.id} spacing={4} align="center" mb={2}>
+                <Box width='150px' height='150px'>
+                  <img
+                    src={item.picture}
+                    alt={item.title}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '4px' }}
+                  />
+                </Box>
+                <Text flex="1">{item.title} — {item.quantity} x R$ {item.price.toFixed(2)}</Text>
+                <Text fontWeight="bold">R$ {(item.price * item.quantity).toFixed(2)}</Text>
+              </HStack>
+            ))
+          )}
+        </Box>
 
+        <Text mt={4} fontSize="xl" fontWeight="bold">Total: R$ {total.toFixed(2)}</Text>
 
-
-        <Text fontSize="2xl" fontWeight="bold" mb={6}>Finalização de Compra</Text>
+        {/* Formulário */}
+        <Text fontSize="2xl" fontWeight="semibold" mt={8} mb={6}>Dados para Entrega</Text>
         <form onSubmit={handleSubmit(onSubmit)}>
           <VStack spacing={4}>
             <FormControl>
@@ -120,7 +140,7 @@ export default function CheckoutForm() {
               <Text color="red.500">{errors.numero?.message}</Text>
             </FormControl>
 
-            <Button colorScheme="teal" type="submit" w="full">
+            <Button colorScheme="teal" type="submit" w="full" mt={4}>
               Finalizar Pedido
             </Button>
           </VStack>

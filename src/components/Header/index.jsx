@@ -20,8 +20,9 @@ export default function Header() {
   return (
     <Box bg="blue.700" px={6} py={4} color="white" boxShadow="md">
       <Flex align="center">
-        <Text fontWeight="bold" fontSize="xl">Loja React</Text>
-        <Spacer />
+        <ChakraLink as={Link} to="/" fontWeight="medium">
+          Loja React
+        </ChakraLink>        <Spacer />
         <HStack spacing={8} align="center">
           <ChakraLink as={Link} to="/" fontWeight="medium">
             Produtos
