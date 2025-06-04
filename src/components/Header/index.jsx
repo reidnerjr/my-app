@@ -21,7 +21,7 @@ export default function Header() {
         <Text fontWeight="bold" fontSize="xl">Loja React</Text>
         <Spacer />
         <Flex gap={6} align="center">
-          <ChakraLink as={Link} to="/">Home</ChakraLink>
+          <ChakraLink as={Link} to="/">Produtos</ChakraLink>
           <Box position="relative">
             <IconButton
               as={Link}
