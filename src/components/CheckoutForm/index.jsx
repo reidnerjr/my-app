@@ -1,7 +1,7 @@
 import {
   Box, Button, FormControl, FormLabel, Input, VStack, Text,
   AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader,
-  AlertDialogBody, AlertDialogFooter, useDisclosure,
+  AlertDialogBody, AlertDialogFooter, useDisclosure, HStack
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -11,7 +11,6 @@ import { useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
 import InputMask from 'react-input-mask';
 
-// Schema de validação
 const schema = yup.object().shape({
   nome: yup.string().required('Nome é obrigatório'),
   email: yup.string().email('Email inválido').required('Email é obrigatório'),
@@ -53,10 +52,26 @@ export default function CheckoutForm() {
     onClose();         // fecha o modal
     navigate('/');     // redireciona para home
   };
-
+  const { cart } = useCart();
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   return (
     <>
-      <Box p={6} maxW="600px" mx="auto">
+      <Box p={6} maxW="600px" mx="auto" marginBottom='50px'>
+        {cart.map(item => (
+          <HStack key={item.id} spacing={4} align="left" mb={2}>
+            <Box boxSize="100px" width='300px'>
+              <img src={item.picture} alt={item.title} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '4px' }} />
+            </Box>
+            <Text>
+              {item.title} — {item.quantity} x R$ {item.price.toFixed(2)}
+            </Text>
+            <Text mt={2} fontWeight="bold">Total: R$ {total.toFixed(2)}</Text>
+
+          </HStack>
+        ))}
+
+
+
         <Text fontSize="2xl" fontWeight="bold" mb={6}>Finalização de Compra</Text>
         <form onSubmit={handleSubmit(onSubmit)}>
           <VStack spacing={4}>

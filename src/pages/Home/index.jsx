@@ -25,7 +25,7 @@ export default function Home() {
   const filtered = products.filter(p => p.title.toLowerCase().includes(search.toLowerCase()));
 
   return (
-    <Box p={6}>
+    <Box p={6} maxWidth='1280px' mx="auto" mt={8}>
       <Input placeholder="Pesquisar produtos..." mb={6} value={search} onChange={(e) => setSearch(e.target.value)} />
       {loading ? (
         <Spinner size="xl" />
@@ -36,7 +36,7 @@ export default function Home() {
               <VStack>
                 <Link to={`/products/${product.id}`} style={{ width: '100%' }}>
                   <VStack>
-                    <Image src={product.picture} boxSize="150px" objectFit="cover" />
+                    <Image src={product.picture} boxSize="300px" objectFit="cover" />
                     <Text>{product.title}</Text>
                   </VStack>
                 </Link>
