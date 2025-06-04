@@ -1,19 +1,40 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import api from '../services/api'; // Importa sua api
 
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
-  const [stock, setStock] = useState({
-    1: 5, // id: quantidade disponível
-    2: 3,
-    3: 10,
-  });
+  const [stock, setStock] = useState({});
+  const [products, setProducts] = useState([]);
+
+  // Carrega produtos ao iniciar
+  useEffect(() => {
+    async function loadProducts() {
+      try {
+        const response = await api.get('/products'); // endpoint da sua API
+        const productsData = response.data;
+
+        setProducts(productsData);
+
+        const initialStock = {};
+        productsData.forEach((product) => {
+          initialStock[product.id] = product.quantity;
+        });
+        setStock(initialStock);
+      } catch (error) {
+        console.error('Erro ao carregar produtos:', error);
+      }
+    }
+
+    loadProducts();
+  }, []);
 
   const addToCart = (product) => {
+    if (stock[product.id] <= 0) return;
+
     setCart((prevCart) => {
       const existing = prevCart.find((item) => item.id === product.id);
-      if (stock[product.id] <= 0) return prevCart;
 
       if (existing) {
         return prevCart.map((item) =>
@@ -97,6 +118,7 @@ export function CartProvider({ children }) {
         decrementQuantity,
         clearCart,
         stock,
+        products, // se quiser usar os produtos em outros componentes
       }}
     >
       {children}

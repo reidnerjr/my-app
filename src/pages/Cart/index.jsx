@@ -7,7 +7,6 @@ export default function Cart() {
     removeFromCart,
     incrementQuantity,
     decrementQuantity,
-    clearCart,
     stock,
   } = useCart();
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -23,8 +22,9 @@ export default function Cart() {
             <VStack align="start">
               <Text>{item.title}</Text>
               <Text color="green.500">R$ {item.price.toFixed(2)} x {item.quantity}</Text>
-              <Text fontSize="sm" color="gray.400">Estoque disponível: {stock[item.id]}</Text>
-            </VStack>
+              <Text fontSize="sm" color="gray.500">
+                Estoque disponível: {stock[item.id] ?? 0}
+              </Text>            </VStack>
             <HStack>
               <Button size="sm" onClick={() => decrementQuantity(item.id)}>-</Button>
               <Text>{item.quantity}</Text>
