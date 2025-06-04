@@ -20,7 +20,7 @@ export default function ProductDetail() {
         console.error('Erro ao buscar produto:', error);
         setLoading(false);
       });
-  }, [f]);
+  }, [id]);
   
 
   if (loading) return <Spinner size="xl" />;

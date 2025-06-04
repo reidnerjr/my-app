@@ -34,7 +34,7 @@ export default function Home() {
           {filtered.map(product => (
             <Box key={product.id} borderWidth="1px" borderRadius="lg" p={4}>
               <VStack>
-                <Link to={`/products/${product.id}`} style={{ width: '100%' }}>
+                <Link to={`/product/${product.id}`} style={{ width: '100%' }}>
                   <VStack>
                     <Image src={product.picture} boxSize="300px" objectFit="cover" />
                     <Text>{product.title}</Text>
