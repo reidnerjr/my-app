@@ -21,13 +21,13 @@ export default function ProductDetail() {
         setLoading(false);
       });
   }, [id]);
-  
+
 
   if (loading) return <Spinner size="xl" />;
   if (!product) return <Text>Produto não encontrado</Text>;
 
   return (
-    <Box p={6}>
+    <Box p={6} maxW="1280px" mx="auto" w="full">
       <HStack align="flex-start">
         <Image src={product.picture} boxSize="250px" objectFit="cover" />
         <VStack align="start" spacing={3}>
