@@ -6,6 +6,7 @@ import {
   Badge,
   Spacer,
   Link as ChakraLink,
+  HStack
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
@@ -19,21 +20,24 @@ export default function Header() {
   return (
     <Box bg="blue.700" px={6} py={4} color="white" boxShadow="md">
       <Flex align="center">
-        <ChakraLink as={Link} to="/">LOJA REACT</ChakraLink>
+        <Text fontWeight="bold" fontSize="xl">Loja React</Text>
         <Spacer />
-        <Flex gap={6} align="center">
-          <ChakraLink as={Link} to="/">Produtos</ChakraLink>
-          <Box position="relative">
-            <IconButton
-              as={Link}
-              to="/cart"
-              icon={<FaShoppingCart />}
-              variant="ghost"
-              aria-label="Carrinho"
-              size="lg"
-            />
-            {totalItems > 0 && (
-              <>
+        <HStack spacing={8} align="center">
+          <ChakraLink as={Link} to="/" fontWeight="medium">
+            Produtos
+          </ChakraLink>
+          <HStack spacing={2} align="center">
+            <Box position="relative">
+              <IconButton
+                as={Link}
+                to="/cart"
+                icon={<FaShoppingCart />}
+                variant="ghost"
+                aria-label="Carrinho"
+                size="lg"
+                color="white"
+              />
+              {totalItems > 0 && (
                 <Badge
                   position="absolute"
                   top="0"
@@ -46,13 +50,16 @@ export default function Header() {
                 >
                   {totalItems}
                 </Badge>
-                <Text fontSize="sm" ml={2} color="gray.200">
-                  R$ {totalValue.toFixed(2)}
-                </Text>
-              </>
+              )}
+            </Box>
+
+            {totalItems > 0 && (
+              <Text fontSize="md" color="gray.200">
+                R$ {totalValue.toFixed(2)}
+              </Text>
             )}
-          </Box>
-        </Flex>
+          </HStack>
+        </HStack>
       </Flex>
     </Box>
   );
