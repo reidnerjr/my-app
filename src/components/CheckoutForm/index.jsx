@@ -9,6 +9,7 @@ import * as yup from 'yup';
 import { useCart } from '../../Context/CartContext';
 import { useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
+import InputMask from 'react-input-mask';
 
 // Schema de validação
 const schema = yup.object().shape({
@@ -19,7 +20,7 @@ const schema = yup.object().shape({
     .transform(value => value.replace(/[^\d]/g, ''))
     .required('CPF é obrigatório')
     .matches(/^\d{11}$/, 'CPF deve ter 11 dígitos numéricos'),
-    cep: yup
+  cep: yup
     .string()
     .transform(value => value.replace(/[^\d]/g, '')) // remove tudo que não for número
     .required('CEP é obrigatório')
@@ -73,7 +74,11 @@ export default function CheckoutForm() {
 
             <FormControl>
               <FormLabel>CPF</FormLabel>
-              <Input {...register('cpf')} />
+              <Input
+                as={InputMask}
+                mask="999.999.999-99"
+                {...register('cpf')}
+              />
               <Text color="red.500">{errors.cpf?.message}</Text>
             </FormControl>
 
