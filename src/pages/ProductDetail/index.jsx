@@ -7,12 +7,12 @@ import api from '../../services/api';
 export default function ProductDetail() {
   const { id } = useParams();
   const { addToCart } = useCart();
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState();
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     api.get(`/products/${id}`)
       .then(response => {
+        console.log(response);
         setProduct(response.data);
         setLoading(false);
       })
@@ -20,7 +20,8 @@ export default function ProductDetail() {
         console.error('Erro ao buscar produto:', error);
         setLoading(false);
       });
-  }, [id]);
+  }, [f]);
+  
 
   if (loading) return <Spinner size="xl" />;
   if (!product) return <Text>Produto não encontrado</Text>;

@@ -34,12 +34,19 @@ export default function Home() {
           {filtered.map(product => (
             <Box key={product.id} borderWidth="1px" borderRadius="lg" p={4}>
               <VStack>
-                <Link to={`/product/${product.id}`}>
-                  <Image src={product.picture} boxSize="150px" objectFit="cover" />
+                <Link to={`/products/${product.id}`} style={{ width: '100%' }}>
+                  <VStack>
+                    <Image src={product.picture} boxSize="150px" objectFit="cover" />
+                    <Text>{product.title}</Text>
+                  </VStack>
                 </Link>
-                <Text>{product.title}</Text>
                 <Text color="green.500">R$ {product.price.toFixed(2)}</Text>
-                <Button colorScheme="blue" onClick={() => addToCart(product)}>Comprar</Button>
+                <Button colorScheme="blue"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addToCart(product);
+                  }}
+                >Comprar</Button>
               </VStack>
             </Box>
           ))}
