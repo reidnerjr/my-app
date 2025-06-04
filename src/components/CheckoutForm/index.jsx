@@ -22,7 +22,7 @@ const schema = yup.object().shape({
     .matches(/^\d{11}$/, 'CPF deve ter 11 dígitos numéricos'),
   cep: yup
     .string()
-    .transform(value => value.replace(/[^\d]/g, '')) // remove tudo que não for número
+    .transform(value => value.replace(/[^\d]/g, ''))
     .required('CEP é obrigatório')
     .matches(/^\d{8}$/, 'CEP deve ter 8 dígitos'),
   rua: yup.string().required('Rua é obrigatória'),
